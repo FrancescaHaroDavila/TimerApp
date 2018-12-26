@@ -9,10 +9,8 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-  @IBOutlet weak var hoursLabel: UILabel!
-  @IBOutlet weak var minutesLLabel: UILabel!
-  @IBOutlet weak var secondsLabel: UILabel!
+ 
+  @IBOutlet weak var timeLabel: UILabel!
   @IBOutlet weak var stopButton: UIButton!
   @IBOutlet weak var pauseButton: UIButton!
   @IBOutlet weak var startButton: UIButton!
@@ -20,6 +18,8 @@ class ViewController: UIViewController {
   var stopWatchTimer = Timer()
   var currentTime = 1
   var hoursCount = 0
+  var minutesCount = 0
+  var secondsCount = 0
   
   @IBAction func hasStartButtonPressed(_ sender: Any) {
     startButton.isHidden = true
@@ -35,11 +35,9 @@ class ViewController: UIViewController {
     pauseButton.isHidden = true
     startButton.isHidden = false
     
+    timeLabel.text = "00:00:00"
     currentTime = 0
-    hoursLabel.text = "00"
-    minutesLLabel.text = "00"
-    secondsLabel.text = "00"
-    
+ 
     stopWatchTimer.invalidate()
   }
   
@@ -52,22 +50,23 @@ class ViewController: UIViewController {
   
   @objc func updateTime(){
     currentTime += 1
-    minutesLLabel.text = String("\(currentTime / 60 )")
-    secondsLabel.text = String("\(currentTime % 60)")
+    minutesCount = (currentTime / 60)
+    secondsCount = (currentTime % 60)
     
     if currentTime == 3600 {
       hoursCount += 1
-      hoursLabel.text = String(hoursCount)
       currentTime = 0
     }
+    //lo siguiente no va funcionar si no has creado el timeLabel
+    timeLabel.text = String(format:"%02i:%02i:%02i", hoursCount, minutesCount, secondsCount)
   }
   
-
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     pauseButton.isHidden = true
     stopButton.isEnabled = false
     
-      }
+  }
 }
 
